@@ -1,9 +1,10 @@
 const express = require('express');
-const Model = require('./model');
+const Model = require('../databases/mongo/model');
 const { Mongoose } = require('mongoose');
 // const fetch = require('node-fetch');
 const router = express.Router();
 const mongoose = require('mongoose');
+const axios=require('axios')
 
 // Connect to MongoDB
 const mongo_server = mongoose.connect('mongodb://localhost:27017/', {
@@ -63,6 +64,20 @@ router.route('/checkuser').post(async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+router.route('/classify').post( (req,res)=>{
+  const body=req.body
+  try{
+    const resp=fetch('http://127.0.0.1:5000/home',{
+      method: "GET"
+    })
+    //resp=resp.json()
+    res.json({resp:resp})
+  }
+  catch (e){
+    console.log(e)
+  }
+  
+})
 
 
 module.exports = router;
